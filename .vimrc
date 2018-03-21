@@ -1,8 +1,23 @@
+set nocompatible
 syntax on
 set number
-autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
-autocmd BufNewFile,BufRead *.py setlocal noexpandtab tabstop=4 shiftwidth=4
+set mouse=a
+set hlsearch
+set ruler
+set expandtab
+set nowrap
+set path+=**
+set wildmenu
+set tabstop=4
+set shiftwidth=4
+set autoindent
+set clipboard=unnamedplus
+
 colorscheme molokai
+highlight ExtraWhiteSpace ctermbg=red guibg=red
+match ExtraWhiteSpace /\s\+$/
+noremap <Tab> gt
+noremap <S-Tab> gT
 " Specify a directory for plugins
 " - For Neovim: ~/.local/share/nvim/plugged
 " - Avoid using standard Vim directory names like 'plugin'
@@ -22,3 +37,9 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
 " Initialize plugin system
 call plug#end()
+
+let g:go_fmt_command="goimports"
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
+nnoremap "" ea"<esc>bi"<esc>el
+nnoremap '' ea'<esc>bi'<esc>el
