@@ -1,76 +1,47 @@
 set nocompatible
+syntax on
 set number
-set mouse=a
-set hlsearch
-set ruler
 set expandtab
-set nowrap
-set path+=**
-set wildmenu
 set tabstop=4
 set shiftwidth=4
-set autoindent
-set clipboard=unnamed
-set colorcolumn=81
-set background=dark
+set hidden
+set cmdheight=2
+set updatetime=300
+set wildmenu
 set backspace=2
-colorscheme badwolf
 
-syntax on
-filetype indent plugin on
+set background=dark
 highlight ExtraWhiteSpace ctermbg=red guibg=red
+colorscheme gruvbox 
 
-match ExtraWhiteSpace /\s\+$/
-noremap <Tab> gt
-noremap <S-Tab> gT
-nnoremap ; :
-inoremap jk <esc>
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-" Specify a directory for plugins
-" - For Neovim: ~/.local/share/nvim/plugged
-" - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
-
-" Make sure you use single quotes
-
-" On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-" Plug 'fatih/molokai'
-" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --go-completer' }
-Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
-Plug 'vim-airline/vim-airline'
-Plug 'tpope/vim-fugitive'
-Plug 'SirVer/ultisnips'
-" Plug 'davidhalter/jedi-vim'
-Plug 'majutsushi/tagbar'
-Plug 'cespare/vim-toml'
-Plug 'nvie/vim-flake8'
-" Plug 'w0rp/ale'
-" Plug 'ctrlpvim/ctrlp.vim'
-
-" Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-" Initialize plugin system
+Plug 'morhetz/gruvbox'
+Plug 'vim-airline/vim-airline'
+Plug 'sjl/badwolf'
+Plug 'cespare/vim-toml'
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+" Python
+Plug 'davidhalter/jedi-vim'
+" Elixir
+Plug 'slashmili/alchemist.vim'
+Plug 'elixir-editors/vim-elixir'
+" Golang
+Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 call plug#end()
 
-let g:go_fmt_command="goimports"
-let g:flake8_show_in_file=1
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <leader>sv :source $MYVIMRC<cr>
-nnoremap "" ea"<esc>bi"<esc>el
-nnoremap '' ea'<esc>bi'<esc>el
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#sources#jedi#show_docstring = 1
 
-autocmd FileType python set foldmethod=indent foldlevel=99
-let python_highlight_all=1
+let g:jedi#documentation_command = "K"
+let g:jedi#goto_definitions_command = "gd"
 
-
-"python with virtualenv support
-python3 << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-  project_base_dir = os.environ['VIRTUAL_ENV']
-  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-  exec(open(activate_this).read(), dict(__file__=activate_this))
-EOF
+let g:go_fmt_command = "goimports"
