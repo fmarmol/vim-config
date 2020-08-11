@@ -45,3 +45,5 @@ let g:jedi#documentation_command = "K"
 let g:jedi#goto_definitions_command = "gd"
 
 let g:go_fmt_command = "goimports"
+let g:syntastic_python_python_exec = "/Users/florent/.pyenv/shims/python"
+
